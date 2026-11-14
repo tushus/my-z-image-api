@@ -1,6 +1,7 @@
-"""Enabled models. Register a deployment here to expose it through the API."""
 
-from .models.guanlan.deployment import deployment as guanlan
+"""Enabled image models for the personal Z-Image-Turbo API."""
+
 from .models.z_image.deployment import deployment as z_image
 
-MODEL_DEPLOYMENTS = (guanlan, z_image)
+# Only deploy Z-Image-Turbo for this personal API.
+MODEL_DEPLOYMENTS = (z_image,)
