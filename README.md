@@ -1,40 +1,42 @@
-# Personal AI Image Generation API
+# A personal AI image generation API powered by Z-Image-Turbo and Modal GPU
 
-A personal image generation API built with Python and [Modal](https://modal.com/), using cloud GPUs to run open-source image generation models.
+A personal AI image generation API powered by [Z-Image-Turbo](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo) and [Modal](https://modal.com/).
 
-## Overview
-
-This project explores deploying and running AI image generation models on Modal. It provides an OpenAI-compatible API for generating images through cloud GPU inference.
-
-The project is intended for personal use, experimentation, and learning about serverless GPU deployment.
+This project runs the Z-Image-Turbo image generation model on Modal GPU and provides an API for generating images remotely.
 
 ## Features
 
-- GPU-accelerated image generation
-- OpenAI-compatible Images API
-- Support for Z-Image-Turbo and KOOK Guanlan
-- API key authentication
-- Shared model weight caching with Modal Volumes
-- Automatic GPU worker scaling
+- Run Z-Image-Turbo on Modal GPU
+- Generate images through an API
+- OpenAI-compatible image generation endpoint
+- Use cloud GPU resources instead of local hardware
+- Store model weights in a persistent Modal Volume
+
+## Requirements
+
+- Python 3.12+
+- A Modal account
+- Modal CLI
+- Modal GPU access
 
 ## Deployment
 
-Requirements:
-- A Modal account with GPU access
-- Python 3.12 or later
-- Modal CLI
-
-Install dependencies:
+Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Set up Modal:
+
+```bash
 modal token new
 ```
 
-Create an API authentication secret:
+Create an API key secret:
 
 ```bash
-modal secret create image-api-auth API_KEY=your-secret-key
+modal secret create image-api-auth API_KEY=your_api_key
 ```
 
 Deploy the application:
@@ -43,40 +45,43 @@ Deploy the application:
 modal deploy images_app.py
 ```
 
-After deployment, use the URL provided by Modal with `/v1` as the API base URL.
+After deployment, Modal will provide an API URL. The API endpoint uses the `/v1` path.
 
 ## API Usage
 
 List available models:
 
-```bash
-curl "$BASE_URL/models" \
-  -H "Authorization: Bearer $API_KEY"
+```http
+GET /v1/models
 ```
 
 Generate an image:
 
-```bash
-curl "$BASE_URL/images/generations" \
-  -H "Authorization: Bearer $API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "z-image-turbo",
-    "prompt": "A peaceful mountain landscape at sunrise",
-    "size": "1024x1024",
-    "response_format": "b64_json"
-  }'
+```http
+POST /v1/images/generations
+```
+
+Example request:
+
+```json
+{
+  "model": "z-image-turbo",
+  "prompt": "A beautiful landscape at sunset",
+  "response_format": "b64_json"
+}
 ```
 
 ## Project Goals
 
-- Experiment with open-source image generation models
-- Learn how to deploy AI inference services on Modal
-- Explore GPU performance and resource configurations
-- Use a personal API with compatible AI clients
+This project is mainly for personal use and learning:
+
+- Experimenting with open-source image generation models
+- Learning how to deploy AI inference on Modal
+- Exploring cloud GPU usage and performance
+- Building a personal image generation API
 
 ## Credits
 
-This project is based on the open-source implementation by [NormanMises](https://github.com/NormanMises/z-image-turbo-modal-openai-api).
+This project is based on the open-source work of [NormanMises](https://github.com/NormanMises/z-image-turbo-modal-openai-api).
 
-The original MIT license and copyright notices are retained. Please refer to the original project and individual model licenses for their respective terms.
+Please refer to the original repository and its license for the original implementation and attributions.
