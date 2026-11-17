@@ -1,4 +1,4 @@
-"""PNG serialization shared by image generation backends."""
+""PNG serialization shared by image generation backends.""
 
 import base64
 import io
